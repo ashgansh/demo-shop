@@ -37,7 +37,6 @@ const requestData = {
 };
 
 async function signRequest() {
-  console.log('waza from sign');
   const signedRequest = await requestnetwork.requestERC20Service.signRequestAsPayee(
     // token address
     '0x995d6a8c21f24be1dd04e105dd0d83758343e258',
@@ -52,12 +51,22 @@ async function signRequest() {
     // meta_data
     JSON.stringify(requestData)
   );
-  console.log(signedRequest);
   return signedRequest;
 }
 
 app.get('/', (request, response) => {
   response.sendFile(__dirname + '/views/index.html');
+});
+
+app.get('/:txHash', async (request, response, next) => {
+  try {
+    const result = await requestnetwork.requestCoreService.getRequestByTransactionHash(
+      request.params.txHash
+    );
+    response.write(JSON.stringify(result));
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.post('/sign_request', (request, response) => {
