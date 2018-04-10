@@ -39,6 +39,8 @@ const requestData = {
 async function signRequest() {
   console.log('waza from sign');
   const signedRequest = await requestnetwork.requestERC20Service.signRequestAsPayee(
+    // token address
+    '0x995d6a8c21f24be1dd04e105dd0d83758343e258',
     // payee address
     ['0xf17f52151ebef6c7334fad080c5704d77216b732'],
     // expected amount in wei
